@@ -21,3 +21,4 @@ t/001Basic.t
 t/002C.t
 t/003Makefile.t
 t/004Perl.t
+t/005HTML.t
