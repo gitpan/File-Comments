@@ -25,6 +25,7 @@ sub init {
     $self->register_suffix(".cc");
     $self->register_suffix(".C");
     $self->register_suffix(".h");
+    $self->register_suffix(".H");
 }
 
 ###########################################
@@ -41,6 +42,26 @@ sub comments {
     my($self, $target) = @_;
 
     return $self->extract_c_comments($target);
+}
+
+###########################################
+sub extract_c_comments {
+###########################################
+    my($self, $target) = @_;
+
+    my @comments = ();
+
+        # This will get confused with c strings containing things
+        # like "/*", but good enough for now until we can hook in a full 
+        # C parser/preprocessor.
+    while($target->{content} =~ 
+            m#/\*(.*?)\*/|
+              //(.*?)$
+             #mxsg) {
+        push @comments, defined $1 ? $1 : $2;
+    }
+
+    return \@comments;
 }
 
 1;

@@ -1,10 +1,10 @@
 ###########################################
-# File::Comments::Plugin::Makefile 
+# File::Comments::Plugin::Shell 
 # 2005, Mike Schilli <cpan@perlmeister.com>
 ###########################################
 
 ###########################################
-package File::Comments::Plugin::Makefile;
+package File::Comments::Plugin::Shell;
 ###########################################
 
 use strict;
@@ -16,13 +16,27 @@ our $VERSION = "0.01";
 our @ISA     = qw(File::Comments::Plugin);
 
 ###########################################
+sub applicable {
+###########################################
+    my($self, $target, $cold_call) = @_;
+
+    return 1 unless $cold_call;
+
+    return 1 if $target->{content} =~ m{^#!.*/(sh|bash|tcsh|csh|zsh)\b};
+
+    return 0;
+}
+
+###########################################
 sub init {
 ###########################################
     my($self) = @_;
 
-    $self->register_base("Makefile");
-    $self->register_base("makefile");
-    $self->register_suffix(".make");
+    $self->register_suffix(".sh");
+    $self->register_suffix(".csh");
+    $self->register_suffix(".tcsh");
+    $self->register_suffix(".bash");
+    $self->register_suffix(".zsh");
 }
 
 ###########################################
@@ -30,7 +44,7 @@ sub type {
 ###########################################
     my($self, $target) = @_;
 
-    return "make";
+    return "shell";
 }
 
 ###########################################
@@ -38,21 +52,7 @@ sub comments {
 ###########################################
     my($self, $target) = @_;
 
-    return $self->extract_hashed_comments($target);
-}
-
-###########################################
-sub extract_hashed_comments {
-###########################################
-    my($self, $target) = @_;
-
-    my @comments = ();
-
-    while($target->{content} =~ m/^\s*#(.*)/mg) {
-        push @comments, $1;
-    }
-
-    return \@comments;
+    return File::Comments::Plugin::Makefile->extract_hashed_comments($target);
 }
 
 1;
@@ -61,15 +61,15 @@ __END__
 
 =head1 NAME
 
-File::Comments::Plugins::Makefile - Plugin to detect comments in makefiles
+File::Comments::Plugins::Shell - Plugin to detect comments in shell scripts
 
 =head1 SYNOPSIS
 
-    use File::Comments::Plugins::Makefile;
+    use File::Comments::Plugins::Shell;
 
 =head1 DESCRIPTION
 
-File::Comments::Plugins::Makefile is a plugin for the File::Comments framework.
+File::Comments::Plugins::Shell is a plugin for the File::Comments framework.
 
 =head1 LEGALESE
 
