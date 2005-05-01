@@ -44,6 +44,14 @@ sub comments {
 }
 
 ###########################################
+sub stripped {
+###########################################
+    my($self, $target) = @_;
+
+    return $self->strip_html_comments($target);
+}
+
+###########################################
 sub extract_html_comments {
 ###########################################
     my($self, $target) = @_;
@@ -63,6 +71,22 @@ sub extract_html_comments {
     }
 
     return \@comments;
+}
+
+###########################################
+sub strip_html_comments {
+###########################################
+    my($self, $target) = @_;
+
+    require HTML::TreeBuilder;
+
+    my $root = HTML::TreeBuilder->new();
+    $root->parse($target->{content});
+    if(!$root) {
+        WARN "Cannot parse $target->{path}";
+        return $target->{content};
+    }
+    return $root->as_HTML();
 }
 
 1;
