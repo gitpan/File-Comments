@@ -1,18 +1,31 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         File-Comments
-version:      0.07
-version_from: lib/File/Comments.pm
-installdirs:  site
+--- #YAML:1.0
+name:               File-Comments
+version:            0.08
+abstract:           Recognizes file formats and extracts format-specific comments
+author:
+    - Mike Schilli <cpan@perlmeister.com>
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
 requires:
-    Archive::Tar:                  1.22
-    HTML::TokeParser:              2.28
-    HTML::TreeBuilder:             0
-    Log::Log4perl:                 0.5
-    Module::Pluggable:             2.4
-    Pod::Parser:                   1.14
-    PPI:                           1.115
-    Sysadm::Install:               0.11
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.30
+    Archive::Tar:       1.22
+    HTML::TokeParser:   2.28
+    HTML::TreeBuilder:  0
+    Log::Log4perl:      0.5
+    Module::Pluggable:  2.4
+    Pod::Parser:        1.14
+    PPI:                1.115
+    Sysadm::Install:    0.11
+resources:
+    repository:  http://github.com/mschilli/file-comments-perl.git
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.55_02
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
